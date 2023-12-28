@@ -1,2 +1,1 @@
-# project-timestamp
-Timestamp Microservice Project
+Timestamp Project for FreeCodeCamp Back End Development and APIs Certificate.
