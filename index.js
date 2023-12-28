@@ -9,25 +9,24 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 app.use(express.static("public"));
 app.use(express.static("views"));
 
-app.get("/api/:date?", function (req, res) {
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/api/:date", function (req, res) {
+  const { date } = req.params;
+
   let inputDate;
-
-  if (req.params.date) {
-    const { date } = req.params;
-
-    if (/^\d+$/.test(date)) {
-      inputDate = new Date(parseInt(date));
-    } else {
-      inputDate = new Date(date);
-    }
-
-    if (isNaN(inputDate.getTime())) {
-      return res.json({ error: "Invalid Date" });
-    }
+  if (/^\d+$/.test(date)) {
+    inputDate = new Date(parseInt(date));
   } else {
-    inputDate = new Date();
+    inputDate = new Date(date);
   }
-  
+
+  if (isNaN(inputDate.getTime())) {
+    return res.json({ error: "Invalid Date" });
+  }
+
   res.json({
     unix: inputDate.getTime(),
     utc: inputDate.toUTCString(),
